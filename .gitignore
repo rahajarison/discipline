@@ -1,0 +1,42 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Vite
+dist/
+.vite/
+.vite-temp/
+
+# Logs
+logs/
+*.log
+yarn.lock
+pnpm-lock.yaml
+package-lock.json
+
+# Editor Directories and Files
+.idea/
+.vscode/
+.DS_Store
+*.swp
+*.swo
+
+# Build Output
+build/
+output/
+
+# Tailwind
+tailwind.config.js.backup
+postcss.config.js.backup
+
+# Local Environment
+.env
+.env.*.local
+
+# Temp Files
+*.tmp
+*.bak
+*.old
