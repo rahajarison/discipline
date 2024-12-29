@@ -1,8 +1,14 @@
 <template>
     <div class="w-1-3">
         <div class="active-player">
-            <p :class="{ 'text-blue-500': activePlayer === 'P1', 'text-red-500': activePlayer === 'P2' }">Active Player:
-                {{ activePlayer }}</p>
+            <p :class="{ 'text-blue-600': activePlayer === 'P1', 'text-red-600': activePlayer === 'P2' }">
+                Joueur actif:
+                <span
+                    :class="{ 'border-blue-400': activePlayer == 'P1', 'border-red-400': activePlayer == 'P2'}"
+                    class="border border-dashed rounded-lg px-2 text-xs font-semibold">
+                        {{ activePlayer }}
+                </span>
+            </p>
             <button @click="togglePlayer" class="btn-primary">
                 Switch Player
             </button>

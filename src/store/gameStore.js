@@ -8,21 +8,15 @@ const MAX_STACK_SIZE = 200;
 
 export const useGameStore = defineStore('game', {
     state: () => ({
-        rounds: [{ actions: [
-            {
-                id: 'match-start',
-                category: SYSTEM,
-                type: EVENT,
-                hitContext: ROUND_START,
-                player: "N/A",
-                timestamp: new Date().toISOString(),
-             }
-        ] }],
+        rounds: [],
         activePlayer: 'P1',
         undoStack: [],
         redoStack: [],
     }),
     actions: {
+        initializeStore() {
+            this.startNewRound();
+        },
         addAction(action) {
             const currentRound = this.rounds[this.rounds.length - 1];
             const newAction = {
@@ -51,12 +45,24 @@ export const useGameStore = defineStore('game', {
             // Ajouter un nouveau round si possible
             // TODO mettre la logique de si le win du round précédent était par le même joueur?
             if (this.rounds.length < 3) {
-                this.resetRedoStack();
-                this.rounds.push({ actions: [] });
                 console.log(`Player ${this.activePlayer} wins the round!`);
+                this.startNewRound();
             } else {
                 console.log("Maximum number of rounds has been reached")
             }
+        },
+        startNewRound() {
+            this.resetRedoStack();
+            this.rounds.push({ actions: [] });
+            const currentRound = this.rounds[this.rounds.length - 1];
+            currentRound.actions.push({
+                id: uuidv4(),
+                category: SYSTEM,
+                type: EVENT,
+                hitContext: ROUND_START,
+                player: "N/A",
+                timestamp: new Date().toISOString(),
+            });
         },
         togglePlayer() {
             this.activePlayer = this.activePlayer === 'P1' ? 'P2' : 'P1';

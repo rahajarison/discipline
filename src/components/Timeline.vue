@@ -1,9 +1,10 @@
 <template>
     <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Timeline</h1>
-    <div v-for="(round, index) in state.rounds" :key="index" class="my-8">
+    <button @click="scrollToLatestEvent" class="btn-primary">Scroll</button>
+    <div v-for="(round, index) in state.rounds" :key="index" class="my-10">
         <h2 class="text-2xl font-bold text-gray-500 dark:text-white">Round {{ index + 1 }}</h2>
-        <ol class="items-center sm:flex flex-nowrap">
-            <li class="relative mb-6 sm:mb-0" v-for="action in round.actions" :key="action.id">
+        <ol class="items-center sm:flex overflow-x-auto whitespace-nowrap">
+            <li class="relative mb-6 sm:mb-0 inline-block" v-for="action in round.actions" :key="action.id" :ref="(el) => (roundRefs[index] = el)">
                 <div class="flex items-center">
                     <div
                         :class="{'bg-blue-100': action.player == 'P1', 'bg-red-100': action.player == 'P2', 'bg-gray-100': action.player == 'N/A'}"
@@ -42,13 +43,30 @@
 </template>
 
 <script>
+import { ref, watch, nextTick } from 'vue';
 import { useGameStore } from '../store/gameStore';
 import { formatTimestamp } from '../utils/formatTimestamp';
 import { NEUTRAL, DEFENSE, OFFENSE, SYSTEM } from '../utils/categories';
 
 export default {
     setup() {
+        const roundRefs = ref([]);
         const gameStore = useGameStore();
+
+        const scrollToLatestEvent = () => {
+            nextTick(() => {
+                const lastRound = roundRefs.value[roundRefs.value.length - 1];
+                if (lastRound) {
+                    lastRound.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'end' });
+                }
+            });
+        };
+
+         // Surveiller les rounds pour scroller automatiquement
+        watch(() => gameStore.rounds, () => {
+            scrollToLatestEvent();
+            console.log("ScrollToLatest", roundRefs);
+        }, { deep: true });
 
         return {
             state: gameStore,
@@ -59,6 +77,8 @@ export default {
                 SYSTEM,
             },
             formatTimestamp,
+            roundRefs,
+            scrollToLatestEvent,
         };
     },
 };
