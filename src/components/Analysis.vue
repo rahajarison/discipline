@@ -3,7 +3,7 @@
         <div class="grow">
             <Timeline />
         </div>
-        <div class="basis-4/12">
+        <div class="my-8 basis-4/12">
             <div class="flex flex-row">
                 <div class="basis-1/3"><InputPanel /></div>
                 <div class="basis-2/3"><KeyMapDisplay /></div>

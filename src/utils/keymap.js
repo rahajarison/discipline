@@ -18,7 +18,7 @@ export const keyMap = {
         },
     },
     e: {
-        type: 'Normal Cancel par Drive Rush / Confirm',
+        type: 'Hit attack',
         hitContexts: {
             default: ON_HIT,
             ctrl: ON_BLOCK,

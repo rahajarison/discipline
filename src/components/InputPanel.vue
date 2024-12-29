@@ -32,7 +32,9 @@ export default {
             // Block keys that are mapped
             //  Prevent default behaviors such as select all the text with ctrl A
             const blockedKeys = Object.keys(keyMap);
-            if((event.ctrlKey || event.altKey || event.metaKey) && blockedKeys.includes(event.key)) {
+            if ((event.ctrlKey || event.altKey || event.metaKey) && blockedKeys.includes(event.key)) {
+                event.preventDefault();
+            } else if (event.key == "Tab") {
                 event.preventDefault();
             }
 
