@@ -1,21 +1,38 @@
 <template>
   <div class="app-container">
-    <KeyMapDisplay />
-    <InputPanel />
-    <Timeline />
-    <ExportBar />
+    <NavBar />
+    <!-- <ModaleTest /> -->
+
+    <div class="p-4 pt-16 sm:ml-64">
+      <Analysis />
+    </div>
   </div>
 </template>
 
 <script>
-import InputPanel from './components/InputPanel.vue';
-import Timeline from './components/Timeline.vue';
-import ExportBar from './components/ExportBar.vue';
-import KeyMapDisplay from './components/KeyMapDisplay.vue';
+import { onMounted } from 'vue';
+import {
+  initModals,
+  initDropdowns,
+} from 'flowbite';
+
+import NavBar from './components/NavBar.vue';
+import Analysis from './components/Analysis.vue';
+// import ModaleTest from './components/ModaleTest.vue';
+
 
 export default {
-  components: { InputPanel, Timeline, ExportBar, KeyMapDisplay },
+  components: { NavBar, Analysis },
+  setup() {
+    onMounted(() => {
+      initModals();
+      initDropdowns();
+    });
+    return {};
+  }
 };
+
+
 </script>
 
 <style>

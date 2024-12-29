@@ -26,33 +26,3 @@ export default {
     },
 };
 </script>
-
-<style>
-.keymap-display {
-    margin: 1rem;
-}
-
-.keymap-display ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.keymap-display li {
-    margin-bottom: 0.5rem;
-    font-family: Arial, sans-serif;
-}
-
-.key {
-    font-weight: bold;
-    color: #007bff;
-}
-
-.type {
-    font-style: italic;
-    color: #28a745;
-}
-
-.modifiers {
-    color: #6c757d;
-}
-</style>

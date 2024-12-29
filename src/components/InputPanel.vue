@@ -1,15 +1,15 @@
 <template>
     <div class="w-1-3">
-        <div class="controls">
-            <button @click="undo" :disabled="!state.canUndo" class="btn-primary">Undo</button>
-            <button @click="redo" :disabled="!state.canRedo" class="btn-primary">Redo</button>
-        </div>
         <div class="active-player">
             <p :class="{ 'text-blue-500': activePlayer === 'P1', 'text-red-500': activePlayer === 'P2' }">Active Player:
                 {{ activePlayer }}</p>
             <button @click="togglePlayer" class="btn-primary">
                 Switch Player
             </button>
+        </div>
+        <div class="controls">
+            <button @click="undo" :disabled="!state.canUndo" class="btn-primary">Undo</button>
+            <button @click="redo" :disabled="!state.canRedo" class="btn-primary">Redo</button>
         </div>
     </div>
 </template>

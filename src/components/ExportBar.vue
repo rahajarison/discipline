@@ -21,16 +21,3 @@ export default {
     },
 };
 </script>
-
-<style>
-.export-bar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    padding: 1rem;
-    background: #f8f8f8;
-    border-top: 1px solid #ccc;
-    display: flex;
-    justify-content: center;
-}
-</style>
