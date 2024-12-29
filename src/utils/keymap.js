@@ -65,10 +65,7 @@ export const keyMap = {
 
     // Keys for moments
     Enter: {
-        type: EVENT,
-        hitContexts: {
-            default: ROUND_WIN,
-        },
+        action: 'markRoundWinner',
     },
     " ": {
         type: REVIEWER,

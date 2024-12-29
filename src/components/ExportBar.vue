@@ -1,7 +1,7 @@
 <template>
     <div class="export-bar">
-        <button @click="exportData('json')">Export JSON</button>
-        <button @click="exportData('csv')">Export CSV</button>
+        <button class="btn-primary" @click="exportData('json')">Export JSON</button>
+        <button class="btn-primary" @click="exportData('csv')">Export CSV</button>
     </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
 
         const exportData = (format) => {
             console.log(`Exporting data in ${format}`);
-            // Ajouter logique d'export
+            console.log(JSON.stringify(gameStore.rounds, null, 2))
         };
 
         return { exportData };

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { v4 as uuidv4 } from 'uuid';
-import { ROUND_START } from '../utils/hitContexts';
+import { ROUND_START, ROUND_WIN } from '../utils/hitContexts';
 import { EVENT } from '../utils/types';
 
 const MAX_STACK_SIZE = 200;
@@ -35,13 +35,13 @@ export const useGameStore = defineStore('game', {
             this.resetRedoStack();
             console.log('Action added to round:', currentRound, newAction);
         },
-        markRoundWinner(player) {
+        markRoundWinner() {
             const currentRound = this.rounds[this.rounds.length - 1];
             currentRound.actions.push({
                 id: uuidv4(),
-                type: 'Round Win',
-                player,
-                hitContext: "N/A",
+                type: EVENT,
+                player: this.activePlayer,
+                hitContext: ROUND_WIN,
                 timestamp: new Date().toISOString(),
             });
 
@@ -50,8 +50,10 @@ export const useGameStore = defineStore('game', {
             if (this.rounds.length < 3) {
                 this.resetRedoStack();
                 this.rounds.push({ actions: [] });
+                console.log(`Player ${this.activePlayer} wins the round!`);
+            } else {
+                console.log("Maximum number of rounds has been reached")
             }
-            console.log(`Player ${player} wins the round!`);
         },
         togglePlayer() {
             this.activePlayer = this.activePlayer === 'P1' ? 'P2' : 'P1';
