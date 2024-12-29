@@ -98,3 +98,22 @@ export const getHitContext = (event, hitContexts) => {
     console.log("Fallback to 'On Hit'");
     return 'On Hit'; // Fallback
 };
+
+export const prepareKeyMapForDisplay = () => {
+    const capitalizeFirstLetter = (str) => {
+        if (!str) return '';
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+
+    return Object.entries(keyMap).map(([key, details]) => {
+        const modList = details.hitContexts
+            ? Object.entries(details.hitContexts).map(([modifier, context]) => `${modifier}: ${context}`).join(', ')
+            : 'N/A';
+
+        return {
+            key: capitalizeFirstLetter(key),         // Key (ex: "A")
+            type: details.type || details.action,    // Type or action (ex: "Jump In")
+            modifiers: modList,                      // Modifiers formatted (ex: "ctrl: On Block, default: On Hit")
+        };
+    });
+};

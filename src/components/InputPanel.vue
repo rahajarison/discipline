@@ -1,11 +1,5 @@
 <template>
     <div class="w-1-3">
-        <h1>Action Input</h1>
-        <ul>
-            <li><span>A:</span> Jump In</li>
-            <li><span>Z:</span> Dash In</li>
-            <li><span>Enter:</span> Gain Round</li>
-        </ul>
         <div class="controls">
             <button @click="undo" class="btn-primary">Undo</button>
             <button @click="redo" class="btn-primary">Redo</button>

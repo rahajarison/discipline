@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <KeyMapDisplay />
     <InputPanel />
     <Timeline />
     <ExportBar />
@@ -10,9 +11,10 @@
 import InputPanel from './components/InputPanel.vue';
 import Timeline from './components/Timeline.vue';
 import ExportBar from './components/ExportBar.vue';
+import KeyMapDisplay from './components/KeyMapDisplay.vue';
 
 export default {
-  components: { InputPanel, Timeline, ExportBar },
+  components: { InputPanel, Timeline, ExportBar, KeyMapDisplay },
 };
 </script>
 
