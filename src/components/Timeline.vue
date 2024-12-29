@@ -28,8 +28,12 @@
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ action.type }}</h3>
                     <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ formatTimestamp(action.timestamp) }}</time>
                     <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                        <span
+                            :class="{ 'border-blue-400': action.player == 'P1', 'text-blue-400': action.player == 'P1', 'border-red-400': action.player == 'P2', 'text-red-400': action.player == 'P2'}"
+                            class="border border-dashed rounded-lg px-2 text-xs font-semibold">
+                                {{ action.player }}
+                        </span>
                         <kbd class="px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ action.hitContext }}</kbd>
-                        {{ action.player }}
                     </p>
                 </div>
             </li>
