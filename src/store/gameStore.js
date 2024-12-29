@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
 import { v4 as uuidv4 } from 'uuid';
+import { ROUND_START } from '../utils/hitContexts';
+import { EVENT } from '../utils/types';
 
 const MAX_STACK_SIZE = 200;
 
@@ -7,11 +9,11 @@ export const useGameStore = defineStore('game', {
     state: () => ({
         rounds: [{ actions: [
             {
-                "id": 'match-start',
-                hitContext: "System",
-                "type": "Round start",
-                "player": "P1",
-                "timestamp": new Date().toISOString(),
+                id: 'match-start',
+                type: EVENT,
+                hitContext: ROUND_START,
+                player: "P1",
+                timestamp: new Date().toISOString(),
              }
         ] }],
         activePlayer: 'P1',

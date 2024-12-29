@@ -1,67 +1,83 @@
-// Table des touches et leurs contextes
+import { ON_BLOCK, ON_HIT, WHIFF, ROUND_WIN, EVENT_NOTICEABLE } from "./hitContexts";
+import { EVENT, REVIEWER } from "./types";
+
 export const keyMap = {
+    // Keys for managing actions
     a: {
         type: 'Jump In',
         hitContexts: {
-            default: 'On Hit',
-            ctrl: 'On Block',
+            default: ON_HIT,
+            ctrl: ON_BLOCK,
         },
     },
     z: {
         type: 'Dash In',
         hitContexts: {
-            default: 'On Hit',
-            ctrl: 'On Block',
+            default: ON_HIT,
+            ctrl: ON_BLOCK,
         },
     },
     e: {
         type: 'Normal Cancel par Drive Rush / Confirm',
         hitContexts: {
-            default: 'On Hit',
-            ctrl: 'On Block',
+            default: ON_HIT,
+            ctrl: ON_BLOCK,
         },
     },
     r: {
         type: 'Skip Neutral',
         hitContexts: {
-            default: 'On Hit',
-            ctrl: 'On Block',
+            default: ON_HIT,
+            ctrl: ON_BLOCK,
         },
     },
     q: {
         type: 'Poke',
         hitContexts: {
-            default: 'On Hit',
-            ctrl: 'On Block',
+            default: ON_HIT,
+            ctrl: ON_BLOCK,
         },
     },
     s: {
         type: 'Cover Attack',
         hitContexts: {
-            default: 'Whiff',
+            default: WHIFF,
         },
     },
     d: {
         type: 'Throw Tech réussi',
         hitContexts: {
-            default: 'On Hit',
+            default: ON_HIT,
         },
     },
     f: {
         type: 'Anti-Air réussi',
         hitContexts: {
-            default: 'On Hit',
+            default: ON_HIT,
         },
     },
     g: {
         type: 'Punish',
         hitContexts: {
-            default: 'On Hit',
+            default: ON_HIT,
         },
     },
+
+    // Keys for moments
     Enter: {
-        type: 'Round Win',
+        type: EVENT,
+        hitContexts: {
+            default: ROUND_WIN,
+        },
     },
+    " ": {
+        type: REVIEWER,
+        hitContexts: {
+            default: EVENT_NOTICEABLE,
+        },
+    },
+
+    // Keys for management
     Tab: {
         action: 'togglePlayer',
     },
@@ -94,8 +110,8 @@ export const getHitContext = (event, hitContexts) => {
         console.log("Returning default hitContext:", hitContexts.default);
         return hitContexts.default;
     }
-    console.log("Fallback to 'On Hit'");
-    return 'On Hit'; // Fallback
+    console.log("Fallback to ON_HIT");
+    return ON_HIT; // Fallback
 };
 
 export const prepareKeyMapForDisplay = () => {

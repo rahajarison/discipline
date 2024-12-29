@@ -5,7 +5,7 @@
             <h3>Round {{ index + 1 }}</h3>
             <ul>
                 <li v-for="action in round.actions" :key="action.id">
-                    [{{ action.hitContext }}] {{ action.type }} ({{ action.player }}) - {{ action.timestamp }}
+                    [{{ action.hitContext }}] {{ action.type }} ({{ action.player }}) - {{ formatTimestamp(action.timestamp) }}
                 </li>
             </ul>
         </div>
@@ -14,6 +14,7 @@
 
 <script>
 import { useGameStore } from '../store/gameStore';
+import { formatTimestamp } from '../utils/formatTimestamp';
 
 export default {
     setup() {
@@ -21,6 +22,7 @@ export default {
 
         return {
             state: gameStore,
+            formatTimestamp,
         };
     },
 };
