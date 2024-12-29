@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { v4 as uuidv4 } from 'uuid';
 
 export const useGameStore = defineStore('game', {
     state: () => ({
@@ -15,6 +16,34 @@ export const useGameStore = defineStore('game', {
         redoStack: [],
     }),
     actions: {
+        addAction(action) {
+            const currentRound = this.rounds[this.rounds.length - 1];
+            const newAction = {
+                ...action,
+                id: uuidv4(),
+                player: this.activePlayer,
+                timestamp: new Date().toISOString(),
+                gameTime: action.gameTime || null,
+            };
+            currentRound.actions.push(newAction);
+            console.log('Action added:', newAction);
+        },
+        markRoundWinner(player) {
+            const currentRound = this.rounds[this.rounds.length - 1];
+            currentRound.actions.push({
+                id: uuidv4(),
+                type: 'Round Win',
+                player,
+                timestamp: new Date().toISOString(),
+            });
+
+            // Ajouter un nouveau round si nécessaire
+            // TODO mettre la logique de si le win du round précédent était par le même joueur?
+            if (this.rounds.length < 3) {
+                this.rounds.push({ actions: [] });
+            }
+            console.log(`Player ${player} wins the round!`);
+        },
         togglePlayer() {
             this.activePlayer = this.activePlayer === 'P1' ? 'P2' : 'P1';
             console.log("Change player" + this.activePlayer);

@@ -11,8 +11,9 @@
             <button @click="redo" class="btn-primary">Redo</button>
         </div>
         <div class="active-player">
-            <p>Active Player: {{ activePlayer }}</p>
-            <button  @click="togglePlayer" class="btn-primary">
+            <p :class="{ 'text-blue-500': activePlayer === 'P1', 'text-red-500': activePlayer === 'P2' }">Active Player:
+                {{ activePlayer }}</p>
+            <button @click="togglePlayer" class="btn-primary">
                 Switch Player
             </button>
         </div>
@@ -20,14 +21,39 @@
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, onMounted, onUnmounted } from 'vue';
 import { useGameStore } from '../store/gameStore';
 
 export default {
     setup() {
         const gameStore = useGameStore();
-
         const activePlayer = computed(() => gameStore.activePlayer)
+
+        const handleKeydown = (event) => {
+            switch (event.key) {
+                case 'a':
+                    gameStore.addAction({ type: 'Jump In' });
+                    break;
+                case 'z':
+                    gameStore.addAction({ type: 'Dash In' });
+                    break;
+                case 'Enter':
+                    gameStore.markRoundWinner(gameStore.activePlayer);
+                    break;
+                case 'Tab':
+                    event.preventDefault();
+                    gameStore.togglePlayer();
+                    break;
+            }
+        };
+
+        onMounted(() => {
+            window.addEventListener('keydown', handleKeydown);
+        });
+
+        onUnmounted(() => {
+            window.removeEventListener('keydown', handleKeydown);
+        });
 
         return {
             state: gameStore,
