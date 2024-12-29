@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { v4 as uuidv4 } from 'uuid';
 import { ROUND_START, ROUND_WIN } from '../utils/hitContexts';
 import { EVENT } from '../utils/types';
+import { SYSTEM } from '../utils/categories';
 
 const MAX_STACK_SIZE = 200;
 
@@ -10,9 +11,10 @@ export const useGameStore = defineStore('game', {
         rounds: [{ actions: [
             {
                 id: 'match-start',
+                category: SYSTEM,
                 type: EVENT,
                 hitContext: ROUND_START,
-                player: "P1",
+                player: "N/A",
                 timestamp: new Date().toISOString(),
              }
         ] }],
@@ -39,6 +41,7 @@ export const useGameStore = defineStore('game', {
             const currentRound = this.rounds[this.rounds.length - 1];
             currentRound.actions.push({
                 id: uuidv4(),
+                category: SYSTEM,
                 type: EVENT,
                 player: this.activePlayer,
                 hitContext: ROUND_WIN,

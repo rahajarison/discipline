@@ -49,6 +49,7 @@ export default {
                 gameStore.addAction({
                     type: keyAction.type,
                     hitContext,
+                    category: keyAction.category
                 });
             }
         };
