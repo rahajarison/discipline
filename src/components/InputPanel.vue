@@ -23,27 +23,29 @@
 <script>
 import { computed, onMounted, onUnmounted } from 'vue';
 import { useGameStore } from '../store/gameStore';
+import { keyMap, getHitContext } from '../utils/keyMap';
 
 export default {
     setup() {
         const gameStore = useGameStore();
-        const activePlayer = computed(() => gameStore.activePlayer)
+        const activePlayer = computed(() => gameStore.activePlayer);
+
 
         const handleKeydown = (event) => {
-            switch (event.key) {
-                case 'a':
-                    gameStore.addAction({ type: 'Jump In' });
-                    break;
-                case 'z':
-                    gameStore.addAction({ type: 'Dash In' });
-                    break;
-                case 'Enter':
-                    gameStore.markRoundWinner(gameStore.activePlayer);
-                    break;
-                case 'Tab':
-                    event.preventDefault();
-                    gameStore.togglePlayer();
-                    break;
+            const keyAction = keyMap[event.key];
+            if (!keyAction) return;
+            console.log("Key action detected:", keyAction);
+
+            const hitContext = keyAction.hitContexts ? getHitContext(event, keyAction.hitContexts) : null;
+            console.log("Determined hitContext:", hitContext);
+
+            if (keyAction.action) {
+                gameStore[keyAction.action]();
+            } else {
+                gameStore.addAction({
+                    type: keyAction.type,
+                    hitContext,
+                });
             }
         };
 

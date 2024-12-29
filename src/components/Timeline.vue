@@ -5,7 +5,7 @@
             <h3>Round {{ index + 1 }}</h3>
             <ul>
                 <li v-for="action in round.actions" :key="action.id">
-                    {{ action.type }} ({{ action.player }}) - {{ action.timestamp }}
+                    [{{ action.hitContext }}] {{ action.type }} ({{ action.player }}) - {{ action.timestamp }}
                 </li>
             </ul>
         </div>

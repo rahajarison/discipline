@@ -5,10 +5,10 @@ export const useGameStore = defineStore('game', {
     state: () => ({
         rounds: [{ actions: [
             {
-                "id": 'unique-id',
-                "type": "Jump in",
+                "id": 'match-start',
+                "type": "Round start",
                 "player": "P1",
-                "timestamp": "99"
+                "timestamp": new Date().toISOString(),
              }
         ] }],
         activePlayer: 'P1',
@@ -22,11 +22,13 @@ export const useGameStore = defineStore('game', {
                 ...action,
                 id: uuidv4(),
                 player: this.activePlayer,
+                hitContext: action.hitContext || "On hit",
                 timestamp: new Date().toISOString(),
                 gameTime: action.gameTime || null,
             };
             currentRound.actions.push(newAction);
-            console.log('Action added:', newAction);
+            this.redoStack = []; // Réinitialise Redo
+            console.log('Action added to round:', currentRound, newAction);
         },
         markRoundWinner(player) {
             const currentRound = this.rounds[this.rounds.length - 1];
@@ -34,6 +36,7 @@ export const useGameStore = defineStore('game', {
                 id: uuidv4(),
                 type: 'Round Win',
                 player,
+                hitContext: "N/A",
                 timestamp: new Date().toISOString(),
             });
 
