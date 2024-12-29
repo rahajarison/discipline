@@ -1,11 +1,14 @@
 import { defineStore } from 'pinia';
 import { v4 as uuidv4 } from 'uuid';
 
+const MAX_STACK_SIZE = 200;
+
 export const useGameStore = defineStore('game', {
     state: () => ({
         rounds: [{ actions: [
             {
                 "id": 'match-start',
+                hitContext: "System",
                 "type": "Round start",
                 "player": "P1",
                 "timestamp": new Date().toISOString(),
@@ -27,7 +30,7 @@ export const useGameStore = defineStore('game', {
                 gameTime: action.gameTime || null,
             };
             currentRound.actions.push(newAction);
-            this.redoStack = []; // Réinitialise Redo
+            this.resetRedoStack();
             console.log('Action added to round:', currentRound, newAction);
         },
         markRoundWinner(player) {
@@ -40,9 +43,10 @@ export const useGameStore = defineStore('game', {
                 timestamp: new Date().toISOString(),
             });
 
-            // Ajouter un nouveau round si nécessaire
+            // Ajouter un nouveau round si possible
             // TODO mettre la logique de si le win du round précédent était par le même joueur?
             if (this.rounds.length < 3) {
+                this.resetRedoStack();
                 this.rounds.push({ actions: [] });
             }
             console.log(`Player ${player} wins the round!`);
@@ -55,17 +59,39 @@ export const useGameStore = defineStore('game', {
             const currentRound = this.rounds[this.rounds.length - 1];
             if (currentRound.actions.length > 0) {
                 const lastAction = currentRound.actions.pop();
-                this.undoStack.push(lastAction);
+                if (this.redoStack.length >= MAX_STACK_SIZE) {
+                    this.redoStack.shift(); // If we have too much redos, we remove the oldest one
+                }
+                this.redoStack.push(JSON.parse(JSON.stringify(lastAction)));
                 console.log('Undo:', lastAction);
+            } else {
+                console.log('No actions to undo.');
             }
         },
         redo() {
-            if (this.undoStack.length > 0) {
-                const lastUndo = this.undoStack.pop();
-                this.redoStack.push(lastUndo);
-                this.rounds[this.rounds.length - 1].actions.push(lastUndo);
-                console.log('Redo:', lastUndo);
+            if (this.redoStack.length > 0) {
+                const lastRedo = this.redoStack.pop();
+
+                // Restaurer l'action depuis redoStack dans la timeline
+                this.rounds[this.rounds.length - 1].actions.push(JSON.parse(JSON.stringify(lastRedo)));
+
+                console.log('Redo executed:', lastRedo);
+            } else {
+                console.log('No actions to redo.');
             }
+        },
+        resetRedoStack() {
+            this.redoStack.splice(0, this.redoStack.length); // Reset reactive
+            console.log('Redo stack reset.');
+        },
+    },
+    getters: {
+        canRedo(state) {
+            return state.redoStack.length > 0;
+        },
+        canUndo(state) {
+            const currentRound = state.rounds[state.rounds.length - 1];
+            return currentRound && currentRound.actions.length > 0;
         },
     },
 });

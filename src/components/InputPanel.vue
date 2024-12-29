@@ -1,8 +1,8 @@
 <template>
     <div class="w-1-3">
         <div class="controls">
-            <button @click="undo" class="btn-primary">Undo</button>
-            <button @click="redo" class="btn-primary">Redo</button>
+            <button @click="undo" :disabled="!state.canUndo" class="btn-primary">Undo</button>
+            <button @click="redo" :disabled="!state.canRedo" class="btn-primary">Redo</button>
         </div>
         <div class="active-player">
             <p :class="{ 'text-blue-500': activePlayer === 'P1', 'text-red-500': activePlayer === 'P2' }">Active Player:
@@ -28,6 +28,14 @@ export default {
         const handleKeydown = (event) => {
             const keyAction = keyMap[event.key];
             if (!keyAction) return;
+
+            // Block keys that are mapped
+            //  Prevent default behaviors such as select all the text with ctrl A
+            const blockedKeys = Object.keys(keyMap);
+            if((event.ctrlKey || event.altKey || event.metaKey) && blockedKeys.includes(event.key)) {
+                event.preventDefault();
+            }
+
             console.log("Key action detected:", keyAction);
 
             const hitContext = keyAction.hitContexts ? getHitContext(event, keyAction.hitContexts) : null;

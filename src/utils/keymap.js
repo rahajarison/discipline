@@ -15,7 +15,7 @@ export const keyMap = {
         },
     },
     e: {
-        type: 'Normal Cancel par Drive Rush / confirm',
+        type: 'Normal Cancel par Drive Rush / Confirm',
         hitContexts: {
             default: 'On Hit',
             ctrl: 'On Block',
@@ -28,34 +28,32 @@ export const keyMap = {
             ctrl: 'On Block',
         },
     },
-    t: {
+    q: {
         type: 'Poke',
         hitContexts: {
             default: 'On Hit',
             ctrl: 'On Block',
         },
     },
-    y: {
+    s: {
         type: 'Cover Attack',
         hitContexts: {
             default: 'Whiff',
-            ctrl: 'On Block',
-        },
-    },
-    q: {
-        type: 'Throw Tech',
-        hitContexts: {
-            default: 'On Hit',
-        },
-    },
-    s: {
-        type: 'Anti-Air',
-        hitContexts: {
-            default: 'On Hit',
-            ctrl: 'On Block',
         },
     },
     d: {
+        type: 'Throw Tech réussi',
+        hitContexts: {
+            default: 'On Hit',
+        },
+    },
+    f: {
+        type: 'Anti-Air réussi',
+        hitContexts: {
+            default: 'On Hit',
+        },
+    },
+    g: {
         type: 'Punish',
         hitContexts: {
             default: 'On Hit',
@@ -74,6 +72,7 @@ export const keyMap = {
         action: 'undo',
     },
 };
+
 
 // Fonction pour déterminer le contexte
 export const getHitContext = (event, hitContexts) => {
