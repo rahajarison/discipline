@@ -1,21 +1,24 @@
 <template>
-    <div class="w-1-3">
-        <div class="active-player">
-            <p :class="{ 'text-blue-600': activePlayer === 'P1', 'text-red-600': activePlayer === 'P2' }">
-                Joueur actif:
-                <span
-                    :class="{ 'border-blue-400': activePlayer == 'P1', 'border-red-400': activePlayer == 'P2'}"
-                    class="border border-dashed rounded-lg px-2 text-xs font-semibold">
-                        {{ activePlayer }}
-                </span>
-            </p>
-            <button @click="togglePlayer" class="btn-primary">
-                Switch Player
-            </button>
-        </div>
-        <div class="controls">
-            <button @click="undo" :disabled="!state.canUndo" class="btn-primary">Undo</button>
-            <button @click="redo" :disabled="!state.canRedo" class="btn-primary">Redo</button>
+    <div class="p-4 mx-1 bg-gray-50 border border-gray-200 rounded-lg">
+        <h2 class="text-xl font-bold text-gray-700 dark:text-white">Informations</h2>
+        <div class="w-1-3">
+            <div class="active-player">
+                <p :class="{ 'text-blue-600': activePlayer === 'P1', 'text-red-600': activePlayer === 'P2' }">
+                    Joueur actif:
+                    <span
+                        :class="{ 'border-blue-400': activePlayer == 'P1', 'border-red-400': activePlayer == 'P2'}"
+                        class="border border-dashed rounded-lg px-2 text-xs font-semibold">
+                            {{ activePlayer }}
+                    </span>
+                </p>
+                <button @click="togglePlayer" class="btn-primary">
+                    Switch Player
+                </button>
+            </div>
+            <div class="controls">
+                <button @click="undo" :disabled="!state.canUndo" class="btn-primary">Undo</button>
+                <button @click="redo" :disabled="!state.canRedo" class="btn-primary">Redo</button>
+            </div>
         </div>
     </div>
 </template>

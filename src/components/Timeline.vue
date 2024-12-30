@@ -1,7 +1,7 @@
 <template>
-    <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Timeline</h1>
+    <h2 class="text-xl font-bold text-gray-700 dark:text-white">Timeline</h2>
     <div v-for="(round, index) in state.rounds" :key="index" class="my-10">
-        <h2 class="text-2xl font-bold text-gray-500 dark:text-white">Round {{ index + 1 }}</h2>
+        <h3 class="text-2xl font-bold text-gray-500 dark:text-white">Round {{ index + 1 }}</h3>
         <ol class="items-center sm:flex overflow-x-auto whitespace-nowrap">
             <li class="relative mb-6 sm:mb-0 inline-block" v-for="action in round.actions" :key="action.id" :ref="(el) => (roundRefs[index] = el)">
                 <div class="flex items-center">
@@ -25,7 +25,7 @@
                     <div class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
                 </div>
                 <div class="mt-1 sm:pe-8">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ action.type }}</h3>
+                    <h4 class="text-lg font-semibold text-gray-900 dark:text-white">{{ action.type }}</h4>
                     <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ formatTimestamp(action.timestamp) }}</time>
                     <p class="text-base font-normal text-gray-500 dark:text-gray-400">
                         <span

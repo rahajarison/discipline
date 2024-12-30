@@ -1,4 +1,5 @@
 <template>
+    <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Analysis</h1>
     <div class="flex flex-col">
         <div class="grow">
             <Timeline />
