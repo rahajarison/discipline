@@ -33,7 +33,6 @@ export default {
         const analysisStore = useAnalysisStore();
         const activePlayer = computed(() => analysisStore.activePlayer);
 
-
         const handleKeydown = (event) => {
             const keyAction = keyMap[event.key];
             if (!keyAction) return;

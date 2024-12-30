@@ -54,7 +54,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="action in filteredActionList" :key="action.id">
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" v-for="action in filteredActionList" :key="action.id">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ action.round }}
                     </th>
@@ -86,7 +86,7 @@
 import { computed, ref } from 'vue';
 import { useAnalysisStore } from '../store/analysisStore';
 
-import ReportsFilterDropdown from '../components/ReportsFilterDropdown.vue';
+import ReportsMatchHistoryFilterDropdown from '../components/ReportsHistoryFilterDropdown.vue';
 
 import { formatTimestamp } from '../utils/formatTimestamp';
 import { ON_HIT, ON_BLOCK, WHIFF, TECHED, EVENT_NOTICEABLE } from '../utils/hitContexts';
@@ -94,7 +94,7 @@ import { SYSTEM, NEUTRAL, DEFENSE, OFFENSE } from '../utils/categories';
 import { EVENT, REVIEWER } from '../utils/types';
 
 export default {
-    components: { ReportsFilterDropdown },
+    components: { ReportsMatchHistoryFilterDropdown },
     setup() {
         const analysisStore = useAnalysisStore();
         const filters = ref({

@@ -10,17 +10,20 @@ import { useAnalysisStore } from './store/analysisStore';
 import DashboardView from './views/DashboardView.vue';
 import AnalysisView from './views/AnalysisView.vue';
 import ObjectivesView from './views/ObjectivesView.vue';
-import ReportsView from './views/ReportsView.vue';
+import ReportsMatchListView from './views/ReportsMatchListView.vue';
+import ReportsMatchHistoryView from './views/ReportsMatchHistoryView.vue';
 
 // Inclusion of Tailwind
 import './assets/styles.css';
+
 
 
 const routes = [
     { path: '/', component: DashboardView },
     { path: '/analysis', component: AnalysisView },
     { path: '/objectives', component: ObjectivesView },
-    { path: '/reports', component: ReportsView },
+    { path: '/matches', component: ReportsMatchListView },
+    { path: '/reports', component: ReportsMatchHistoryView },
 ]
 
 
