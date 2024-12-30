@@ -1,6 +1,5 @@
 <template>
     <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Timeline</h1>
-    <button @click="scrollToLatestEvent" class="btn-primary">Scroll</button>
     <div v-for="(round, index) in state.rounds" :key="index" class="my-10">
         <h2 class="text-2xl font-bold text-gray-500 dark:text-white">Round {{ index + 1 }}</h2>
         <ol class="items-center sm:flex overflow-x-auto whitespace-nowrap">
@@ -65,7 +64,7 @@ export default {
          // Surveiller les rounds pour scroller automatiquement
         watch(() => gameStore.rounds, () => {
             scrollToLatestEvent();
-            console.log("ScrollToLatest", roundRefs);
+            // console.log("ScrollToLatest", roundRefs);
         }, { deep: true });
 
         return {
@@ -78,7 +77,6 @@ export default {
             },
             formatTimestamp,
             roundRefs,
-            scrollToLatestEvent,
         };
     },
 };

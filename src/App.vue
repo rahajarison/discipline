@@ -4,7 +4,7 @@
     <!-- <ModaleTest /> -->
 
     <div class="p-4 pt-16 sm:ml-64">
-      <Analysis />
+      <RouterView />
     </div>
   </div>
 </template>
@@ -17,12 +17,11 @@ import {
 } from 'flowbite';
 
 import NavBar from './components/NavBar.vue';
-import Analysis from './components/Analysis.vue';
 // import ModaleTest from './components/ModaleTest.vue';
 
 
 export default {
-  components: { NavBar, Analysis },
+  components: { NavBar },
   setup() {
     onMounted(() => {
       initModals();

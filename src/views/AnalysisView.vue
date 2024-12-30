@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import InputPanel from './InputPanel.vue';
-import Timeline from './Timeline.vue';
-import ExportBar from './ExportBar.vue';
-import KeyMapDisplay from './KeyMapDisplay.vue';
+import InputPanel from '../components/InputPanel.vue';
+import Timeline from '../components/Timeline.vue';
+import ExportBar from '../components/ExportBar.vue';
+import KeyMapDisplay from '../components/KeyMapDisplay.vue';
 
 
 export default {
