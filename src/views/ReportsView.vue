@@ -1,7 +1,7 @@
 <template>
     <h1 class="m-4 text-4xl font-bold text-gray-800 dark:text-white">Rapports</h1>
     <!-- {{ actionList }} -->
-    {{ filters }}
+    <!-- {{ filters }} -->
     
     <ReportsFilterDropdown
         :options="roundOptions"
