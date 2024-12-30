@@ -10,7 +10,6 @@ export const useGameStore = defineStore('game', {
     state: () => ({
         rounds: [],
         activePlayer: 'P1',
-        undoStack: [],
         redoStack: [],
     }),
     actions: {
