@@ -64,7 +64,6 @@ export default {
          // Surveiller les rounds pour scroller automatiquement
         watch(() => gameStore.rounds, () => {
             scrollToLatestEvent();
-            // console.log("ScrollToLatest", roundRefs);
         }, { deep: true });
 
         return {
