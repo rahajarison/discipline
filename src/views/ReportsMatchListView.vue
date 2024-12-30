@@ -26,7 +26,7 @@
                         {{ match.id }}
                     </th>
                     <td class="px-6 py-4">
-                        {{ match.date }}
+                        {{ formatTimestamp(match.timestamp) }}
                     </td>
                     <td class="px-6 py-4">
                         XXXXXX
@@ -35,7 +35,7 @@
                         YYYYYY
                     </td>
                     <td class="px-6 py-4 text-right">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Choisir</a>
+                        <RouterLink :to="{ name: 'match-history', params: { matchId: match.id } }" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Choisir</RouterLink>
                     </td>
                 </tr>
             </tbody>
@@ -46,12 +46,14 @@
 <script>
 // import { computed, ref } from 'vue';
 import { useMatchStore } from '../store/matchStore';
+import { formatTimestamp } from '../utils/formatTimestamp';
 
 export default {
     setup() {
         const matchStore = useMatchStore();
         return {
-            state: matchStore
+            state: matchStore,
+            formatTimestamp
         }
     }
 }

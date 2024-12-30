@@ -17,6 +17,7 @@ export const useMatchStore = defineStore('match', {
                 notes: '',
                 reports: [],
                 objectives: [],
+                timestamp: new Date(),
             };
             this.matches.push(newMatch);
             this.activeMatchId = newMatch.id;
@@ -37,15 +38,38 @@ export const useMatchStore = defineStore('match', {
                 this.matches.push(match);
                 console.log(`Match ${match.id} créé.`);
             }
+        },
+        getFlatActionList(match) {
+            const result = [];
+            const matchInstance = this.findMatch(match.id);
+            if (matchInstance) {
+                for (let roundIndex = 0; roundIndex < matchInstance.rounds.length; roundIndex++) {
+                    const round = matchInstance.rounds[roundIndex];
+                    for (let actionIndex = 0; actionIndex < round.actions.length; actionIndex++) {
+                        const action = round.actions[actionIndex];
+                        result.push({
+                            ...action,
+                            round: roundIndex + 1,
+                        });
+                    }
+                }
+            }
+            return result;
+        },
+        findMatch(matchId) {
+            return this.matches.find((match) => match.id === matchId);
         }
     },
     getters: {
         activeMatch(state) {
-            return state.matches.find((match) => match.id === state.activeMatchId);
+            return state.findMatch(state.activeMatchId);
         },
         activeRounds(state) {
-            const match = state.matches.find((match) => match.id === state.activeMatchId);
+            const match = state.activeMatch;
             return match ? match.rounds : [];
+        },
+        flatActiveActionList(state) {
+            return state.getFlatActionList(state.activeMatch);
         },
     },
 });

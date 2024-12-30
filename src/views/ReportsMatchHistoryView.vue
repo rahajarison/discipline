@@ -3,27 +3,27 @@
     <!-- {{ actionList }} -->
     <!-- {{ filters }} -->
     
-    <ReportsFilterDropdown
+    <ReportsMatchHistoryFilterDropdown
         :options="roundOptions"
         placeholder="Filtrer par rounds"
         v-model="filters.round"
     />
-    <ReportsFilterDropdown
+    <ReportsMatchHistoryFilterDropdown
         :options="playerOptions"
         placeholder="Filtrer par joueur"
         v-model="filters.player"
     />
-    <ReportsFilterDropdown
+    <ReportsMatchHistoryFilterDropdown
         :options="categoryOptions"
         placeholder="Filtrer par catégorie"
         v-model="filters.category"
     />
-    <ReportsFilterDropdown
+    <ReportsMatchHistoryFilterDropdown
         :options="typeOptions"
         placeholder="Filtrer par type"
         v-model="filters.type"
     />
-    <ReportsFilterDropdown
+    <ReportsMatchHistoryFilterDropdown
         :options="hitContextOptions"
         placeholder="Filtrer par hit context"
         v-model="filters.hitContext"
@@ -84,19 +84,24 @@
 
 <script>
 import { computed, ref } from 'vue';
-import { useAnalysisStore } from '../store/analysisStore';
+import { useRoute } from 'vue-router';
+import { useMatchStore } from '../store/matchStore';
 
-import ReportsMatchHistoryFilterDropdown from '../components/ReportsHistoryFilterDropdown.vue';
+import ReportsMatchHistoryFilterDropdown from '../components/ReportsMatchHistoryFilterDropdown.vue';
 
 import { formatTimestamp } from '../utils/formatTimestamp';
 import { ON_HIT, ON_BLOCK, WHIFF, TECHED, EVENT_NOTICEABLE } from '../utils/hitContexts';
 import { SYSTEM, NEUTRAL, DEFENSE, OFFENSE } from '../utils/categories';
 import { EVENT, REVIEWER } from '../utils/types';
+import ReportsHistoryFilterDropdown from '../components/ReportsMatchHistoryFilterDropdown.vue';
+
 
 export default {
     components: { ReportsMatchHistoryFilterDropdown },
     setup() {
-        const analysisStore = useAnalysisStore();
+        const matchStore = useMatchStore();
+        const route = useRoute();
+
         const filters = ref({
             round: '',
             player: '',
@@ -105,9 +110,13 @@ export default {
             hitContext: '',
         });
 
-        const actionList = computed(() => analysisStore.flatActionList);
+        // const actionList = computed(() => matchStore.flatActiveActionList);
+        console.log(route.params);
+        const match = matchStore.findMatch(route.params.matchId);
+        // const flatActionList = computed(() => matchStore.getFlatActionList(match));
+        const flatActionList = matchStore.getFlatActionList(match);
         const filteredActionList = computed(() => {
-            return analysisStore.flatActionList.filter((action) => {
+            return flatActionList.filter((action) => {
                 return (
                 (!filters.value.round || action.round === Number(filters.value.round)) &&
                 (!filters.value.player || action.player === filters.value.player) &&
@@ -121,7 +130,7 @@ export default {
         // Filters options
         const roundOptions = computed(() => [
             { value: '', label: 'Tous les rounds' },
-            ...analysisStore.match.rounds.map((_, index) => ({
+            ...match.rounds.map((_, index) => ({
                 value: "" + (index + 1),
                 label: `Round ${index + 1}`,
             })),
@@ -153,9 +162,9 @@ export default {
         ];
 
         return {
-            state: analysisStore,
+            state: matchStore,
+            match,
             filters,
-            actionList,
             filteredActionList,
             formatTimestamp,
             hitContexts: {

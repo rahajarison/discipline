@@ -17,7 +17,7 @@ export const useAnalysisStore = defineStore('analysis', {
     }),
     actions: {
         initializeStore() {
-            this.startNewRound();
+            this.startNewAnalysis();
         },
         addAction(action) {
             const currentRound = this.match.rounds[this.match.rounds.length - 1];
@@ -53,6 +53,13 @@ export const useAnalysisStore = defineStore('analysis', {
             } else {
                 console.log("Maximum number of rounds has been reached")
             }
+        },
+        startNewAnalysis() {
+            this.match = {
+                rounds: [],
+                timestamp: new Date()
+            };
+            this.startNewRound();
         },
         startNewRound() {
             this.resetRedoStack();
@@ -101,20 +108,6 @@ export const useAnalysisStore = defineStore('analysis', {
         },
     },
     getters: {
-        flatActionList(state) {
-            const result = [];
-            for (let roundIndex = 0; roundIndex < state.match.rounds.length; roundIndex++) {
-                const round = state.match.rounds[roundIndex];
-                for (let actionIndex = 0; actionIndex < round.actions.length; actionIndex++) {
-                    const action = round.actions[actionIndex];
-                    result.push({
-                        ...action,
-                        round: roundIndex + 1,
-                    });
-                }
-            }
-            return result;
-        },
         canRedo(state) {
             return state.redoStack.length > 0;
         },

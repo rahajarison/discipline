@@ -17,15 +17,13 @@ import ReportsMatchHistoryView from './views/ReportsMatchHistoryView.vue';
 import './assets/styles.css';
 
 
-
 const routes = [
-    { path: '/', component: DashboardView },
-    { path: '/analysis', component: AnalysisView },
-    { path: '/objectives', component: ObjectivesView },
-    { path: '/matches', component: ReportsMatchListView },
-    { path: '/reports', component: ReportsMatchHistoryView },
+    { path: '/', name: "dashboard", component: DashboardView },
+    { path: '/analysis', name: 'analysis', component: AnalysisView },
+    { path: '/objectives', name: 'objectives', component: ObjectivesView },
+    { path: '/matches', name: 'match-list', component: ReportsMatchListView },
+    { path: '/matches/:matchId/history', name: 'match-history', component: ReportsMatchHistoryView },
 ]
-
 
 const app = createApp(App);
 const pinia = createPinia();
