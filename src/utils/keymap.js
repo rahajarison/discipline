@@ -1,5 +1,5 @@
 import { DEFENSE, NEUTRAL, OFFENSE, SYSTEM } from "./categories";
-import { ON_BLOCK, ON_HIT, WHIFF, ROUND_WIN, EVENT_NOTICEABLE } from "./hitContexts";
+import { ON_BLOCK, ON_HIT, WHIFF, TECHED, ROUND_WIN, EVENT_NOTICEABLE } from "./hitContexts";
 import { EVENT, REVIEWER } from "./types";
 
 export const keyMap = {
@@ -69,15 +69,15 @@ export const keyMap = {
     },
 
     // Throws
-    w: {
+    ',': {
         category: OFFENSE,
         type: 'Throw',
         hitContexts: {
             default: ON_HIT,
-            ctrl: ON_BLOCK,
+            ctrl: TECHED,
         },
     },
-    x: {
+    ';': {
         category: DEFENSE,
         type: 'Throw Tech',
         hitContexts: {
@@ -90,7 +90,7 @@ export const keyMap = {
     Enter: {
         action: 'markRoundWinner',
     },
-    " ": {
+    ' ': {
         type: REVIEWER,
         category: SYSTEM,
         hitContexts: {

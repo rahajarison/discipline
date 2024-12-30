@@ -1,6 +1,6 @@
 <template>
     <h2 class="text-xl font-bold text-gray-700 dark:text-white">Timeline</h2>
-    <div v-for="(round, index) in state.rounds" :key="index" class="my-10">
+    <div v-for="(round, index) in state.match.rounds" :key="index" class="my-10">
         <h3 class="text-2xl font-bold text-gray-500 dark:text-white">Round {{ index + 1 }}</h3>
         <ol class="items-center sm:flex overflow-x-auto whitespace-nowrap">
             <li class="relative mb-6 sm:mb-0 inline-block" v-for="action in round.actions" :key="action.id" :ref="(el) => (roundRefs[index] = el)">
@@ -43,14 +43,14 @@
 
 <script>
 import { ref, watch, nextTick } from 'vue';
-import { useGameStore } from '../store/gameStore';
+import { useAnalysisStore } from '../store/analysisStore';
 import { formatTimestamp } from '../utils/formatTimestamp';
 import { NEUTRAL, DEFENSE, OFFENSE, SYSTEM } from '../utils/categories';
 
 export default {
     setup() {
         const roundRefs = ref([]);
-        const gameStore = useGameStore();
+        const analysisStore = useAnalysisStore();
 
         const scrollToLatestEvent = () => {
             nextTick(() => {
@@ -62,12 +62,12 @@ export default {
         };
 
          // Surveiller les rounds pour scroller automatiquement
-        watch(() => gameStore.rounds, () => {
+        watch(() => analysisStore.match.rounds, () => {
             scrollToLatestEvent();
         }, { deep: true });
 
         return {
-            state: gameStore,
+            state: analysisStore,
             categories: {
                 NEUTRAL,
                 DEFENSE,

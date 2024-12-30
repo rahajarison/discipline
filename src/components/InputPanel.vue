@@ -25,13 +25,13 @@
 
 <script>
 import { computed, onMounted, onUnmounted } from 'vue';
-import { useGameStore } from '../store/gameStore';
+import { useAnalysisStore } from '../store/analysisStore';
 import { keyMap, getHitContext } from '../utils/keyMap';
 
 export default {
     setup() {
-        const gameStore = useGameStore();
-        const activePlayer = computed(() => gameStore.activePlayer);
+        const analysisStore = useAnalysisStore();
+        const activePlayer = computed(() => analysisStore.activePlayer);
 
 
         const handleKeydown = (event) => {
@@ -53,9 +53,9 @@ export default {
             console.log("Determined hitContext:", hitContext);
 
             if (keyAction.action) {
-                gameStore[keyAction.action]();
+                analysisStore[keyAction.action]();
             } else {
-                gameStore.addAction({
+                analysisStore.addAction({
                     type: keyAction.type,
                     hitContext,
                     category: keyAction.category
@@ -72,11 +72,11 @@ export default {
         });
 
         return {
-            state: gameStore,
+            state: analysisStore,
             activePlayer,
-            togglePlayer: gameStore.togglePlayer,
-            undo: gameStore.undo,
-            redo: gameStore.redo,
+            togglePlayer: analysisStore.togglePlayer,
+            undo: analysisStore.undo,
+            redo: analysisStore.redo,
         };
     },
 };

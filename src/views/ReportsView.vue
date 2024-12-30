@@ -70,7 +70,7 @@
                     <!-- <td class="px-6 py-4 bg-red-500 text-white"> -->
                     <!-- <td class="px-6 py-4 bg-gray-500 text-white"> -->
                     <td class="px-6 py-4"
-                        :class="{ 'bg-red-500 text-white': action.hitContext == hitContexts.ON_HIT, 'bg-gray-500 text-white': action.hitContext == hitContexts.ON_BLOCK, 'bg-red-800 text-white': action.hitContext == hitContexts.WHIFF }">
+                        :class="{ 'bg-red-500 text-white': action.hitContext == hitContexts.ON_HIT, 'bg-gray-500 text-white': action.hitContext == hitContexts.ON_BLOCK, 'bg-red-800 text-white': action.hitContext == hitContexts.WHIFF, 'bg-gray-700 text-white': action.hitContext == hitContexts.TECHED }">
                         {{ action.hitContext }}
                     </td>
                     <td class="px-6 py-4">
@@ -84,19 +84,19 @@
 
 <script>
 import { computed, ref } from 'vue';
-import { useGameStore } from '../store/gameStore';
+import { useAnalysisStore } from '../store/analysisStore';
 
 import ReportsFilterDropdown from '../components/ReportsFilterDropdown.vue';
 
 import { formatTimestamp } from '../utils/formatTimestamp';
-import { ON_HIT, ON_BLOCK, WHIFF, EVENT_NOTICEABLE } from '../utils/hitContexts';
+import { ON_HIT, ON_BLOCK, WHIFF, TECHED, EVENT_NOTICEABLE } from '../utils/hitContexts';
 import { SYSTEM, NEUTRAL, DEFENSE, OFFENSE } from '../utils/categories';
 import { EVENT, REVIEWER } from '../utils/types';
 
 export default {
     components: { ReportsFilterDropdown },
     setup() {
-        const gameStore = useGameStore();
+        const analysisStore = useAnalysisStore();
         const filters = ref({
             round: '',
             player: '',
@@ -105,9 +105,9 @@ export default {
             hitContext: '',
         });
 
-        const actionList = computed(() => gameStore.flatActionList);
+        const actionList = computed(() => analysisStore.flatActionList);
         const filteredActionList = computed(() => {
-            return gameStore.flatActionList.filter((action) => {
+            return analysisStore.flatActionList.filter((action) => {
                 return (
                 (!filters.value.round || action.round === Number(filters.value.round)) &&
                 (!filters.value.player || action.player === filters.value.player) &&
@@ -121,7 +121,7 @@ export default {
         // Filters options
         const roundOptions = computed(() => [
             { value: '', label: 'Tous les rounds' },
-            ...gameStore.rounds.map((_, index) => ({
+            ...analysisStore.match.rounds.map((_, index) => ({
                 value: "" + (index + 1),
                 label: `Round ${index + 1}`,
             })),
@@ -148,11 +148,12 @@ export default {
             { value: ON_HIT, label: 'On Hit' },
             { value: ON_BLOCK, label: 'On Block' },
             { value: WHIFF, label: 'Whiff' },
+            { value: TECHED, label: 'Teched' },
             { value: EVENT_NOTICEABLE, label: 'Evénement marquant' },
         ];
 
         return {
-            state: gameStore,
+            state: analysisStore,
             filters,
             actionList,
             filteredActionList,
@@ -161,6 +162,7 @@ export default {
                 ON_HIT,
                 ON_BLOCK,
                 WHIFF,
+                TECHED,
                 EVENT_NOTICEABLE
             },
             roundOptions,

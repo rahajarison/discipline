@@ -6,9 +6,12 @@ import { SYSTEM } from '../utils/categories';
 
 const MAX_STACK_SIZE = 200;
 
-export const useGameStore = defineStore('game', {
+export const useAnalysisStore = defineStore('analysis', {
     state: () => ({
-        rounds: [],
+        match: {
+            rounds: []
+        },
+        // rounds: [],
         activePlayer: 'P1',
         redoStack: [],
     }),
@@ -17,7 +20,7 @@ export const useGameStore = defineStore('game', {
             this.startNewRound();
         },
         addAction(action) {
-            const currentRound = this.rounds[this.rounds.length - 1];
+            const currentRound = this.match.rounds[this.match.rounds.length - 1];
             const newAction = {
                 ...action,
                 id: uuidv4(),
@@ -27,12 +30,12 @@ export const useGameStore = defineStore('game', {
                 gameTime: action.gameTime || null,
             };
             currentRound.actions.push(newAction);
-            // this.rounds = [...this.rounds];
+            // this.match.rounds = [...this.match.rounds];
             this.resetRedoStack();
             console.log('Action added to round:', currentRound, newAction);
         },
         markRoundWinner() {
-            const currentRound = this.rounds[this.rounds.length - 1];
+            const currentRound = this.match.rounds[this.match.rounds.length - 1];
             currentRound.actions.push({
                 id: uuidv4(),
                 category: SYSTEM,
@@ -44,7 +47,7 @@ export const useGameStore = defineStore('game', {
 
             // Ajouter un nouveau round si possible
             // TODO mettre la logique de si le win du round précédent était par le même joueur?
-            if (this.rounds.length < 3) {
+            if (this.match.rounds.length < 3) {
                 console.log(`Player ${this.activePlayer} wins the round!`);
                 this.startNewRound();
             } else {
@@ -53,8 +56,8 @@ export const useGameStore = defineStore('game', {
         },
         startNewRound() {
             this.resetRedoStack();
-            this.rounds.push({ actions: [] });
-            const currentRound = this.rounds[this.rounds.length - 1];
+            this.match.rounds.push({ actions: [] });
+            const currentRound = this.match.rounds[this.match.rounds.length - 1];
             currentRound.actions.push({
                 id: uuidv4(),
                 category: SYSTEM,
@@ -69,7 +72,7 @@ export const useGameStore = defineStore('game', {
             console.log("Change player" + this.activePlayer);
         },
         undo() {
-            const currentRound = this.rounds[this.rounds.length - 1];
+            const currentRound = this.match.rounds[this.match.rounds.length - 1];
             if (currentRound.actions.length > 0) {
                 const lastAction = currentRound.actions.pop();
                 if (this.redoStack.length >= MAX_STACK_SIZE) {
@@ -85,8 +88,7 @@ export const useGameStore = defineStore('game', {
             if (this.redoStack.length > 0) {
                 const lastRedo = this.redoStack.pop();
 
-                // Restaurer l'action depuis redoStack dans la timeline
-                this.rounds[this.rounds.length - 1].actions.push(JSON.parse(JSON.stringify(lastRedo)));
+                this.match.rounds[this.match.rounds.length - 1].actions.push(JSON.parse(JSON.stringify(lastRedo)));
 
                 console.log('Redo executed:', lastRedo);
             } else {
@@ -101,8 +103,8 @@ export const useGameStore = defineStore('game', {
     getters: {
         flatActionList(state) {
             const result = [];
-            for (let roundIndex = 0; roundIndex < state.rounds.length; roundIndex++) {
-                const round = state.rounds[roundIndex];
+            for (let roundIndex = 0; roundIndex < state.match.rounds.length; roundIndex++) {
+                const round = state.match.rounds[roundIndex];
                 for (let actionIndex = 0; actionIndex < round.actions.length; actionIndex++) {
                     const action = round.actions[actionIndex];
                     result.push({
@@ -117,7 +119,7 @@ export const useGameStore = defineStore('game', {
             return state.redoStack.length > 0;
         },
         canUndo(state) {
-            const currentRound = state.rounds[state.rounds.length - 1];
+            const currentRound = state.match.rounds[state.match.rounds.length - 1];
             return currentRound && currentRound.actions.length > 0;
         },
     },

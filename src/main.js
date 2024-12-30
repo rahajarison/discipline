@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import App from './App.vue';
 
-import { useGameStore } from './store/gameStore';
+import { useAnalysisStore } from './store/analysisStore';
 
 // Views for router
 import DashboardView from './views/DashboardView.vue';
@@ -33,7 +33,7 @@ const router = createRouter({
 
 app.use(pinia);
 app.use(router);
-const gameStore = useGameStore();
-gameStore.initializeStore();
+const analysisStore = useAnalysisStore();
+analysisStore.initializeStore();
 
 app.mount('#app');
