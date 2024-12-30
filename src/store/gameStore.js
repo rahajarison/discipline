@@ -100,30 +100,14 @@ export const useGameStore = defineStore('game', {
     },
     getters: {
         flatActionList(state) {
-            // let list = [];
-
-            // for (let i = 0; i < state.rounds; i++) {
-            //     console.log("In round", i)
-            //     const round = gameStore.rounds[i];
-
-            //     for (let action of round.actions) {
-            //         console.log("Push action", action);
-            //         list.push({
-            //             ...action,
-            //             round: i + 1,
-            //         });
-            //     }
-            // }
-
-            // return list;
             const result = [];
             for (let roundIndex = 0; roundIndex < state.rounds.length; roundIndex++) {
                 const round = state.rounds[roundIndex];
                 for (let actionIndex = 0; actionIndex < round.actions.length; actionIndex++) {
                     const action = round.actions[actionIndex];
                     result.push({
-                        ...action, // Copie les propriétés de l'action
-                        round: roundIndex + 1, // Ajoute la référence du round
+                        ...action,
+                        round: roundIndex + 1,
                     });
                 }
             }

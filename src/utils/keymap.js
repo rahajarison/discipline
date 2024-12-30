@@ -1,9 +1,9 @@
-import { DEFENSE, NEUTRAL, SYSTEM } from "./categories";
+import { DEFENSE, NEUTRAL, OFFENSE, SYSTEM } from "./categories";
 import { ON_BLOCK, ON_HIT, WHIFF, ROUND_WIN, EVENT_NOTICEABLE } from "./hitContexts";
 import { EVENT, REVIEWER } from "./types";
 
 export const keyMap = {
-    // Keys for managing actions
+    // Neutral mouvements and hit
     a: {
         category: NEUTRAL,
         type: 'Jump In',
@@ -22,23 +22,17 @@ export const keyMap = {
     },
     e: {
         category: NEUTRAL,
-        type: 'Normal confirm',
-        hitContexts: {
-            default: ON_HIT,
-            ctrl: ON_BLOCK,
-        },
-    },
-    r: {
-        category: NEUTRAL,
         type: 'Skip Neutral',
         hitContexts: {
             default: ON_HIT,
             ctrl: ON_BLOCK,
         },
     },
+
+    // Neutral actions
     q: {
         category: NEUTRAL,
-        type: 'Poke',
+        type: 'Hit attack confirm',
         hitContexts: {
             default: ON_HIT,
             ctrl: ON_BLOCK,
@@ -46,21 +40,22 @@ export const keyMap = {
     },
     s: {
         category: NEUTRAL,
+        type: 'Poke',
+        hitContexts: {
+            default: ON_HIT,
+            ctrl: ON_BLOCK,
+        },
+    },
+    d: {
+        category: NEUTRAL,
         type: 'Cover Attack',
         hitContexts: {
             default: WHIFF,
         },
     },
-    d: {
-        category: DEFENSE,
-        type: 'Throw Tech réussi',
-        hitContexts: {
-            default: ON_HIT,
-        },
-    },
     f: {
         category: NEUTRAL,
-        type: 'Anti-Air réussi',
+        type: 'Anti-Air',
         hitContexts: {
             default: ON_HIT,
         },
@@ -70,6 +65,24 @@ export const keyMap = {
         type: 'Punish',
         hitContexts: {
             default: ON_HIT,
+        },
+    },
+
+    // Throws
+    w: {
+        category: OFFENSE,
+        type: 'Throw',
+        hitContexts: {
+            default: ON_HIT,
+            ctrl: ON_BLOCK,
+        },
+    },
+    x: {
+        category: DEFENSE,
+        type: 'Throw Tech',
+        hitContexts: {
+            default: ON_HIT,
+            ctrl: WHIFF,
         },
     },
 
