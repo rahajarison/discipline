@@ -80,6 +80,7 @@
             </tbody>
         </table>
     </div>
+    <ReportsActionsView />
 </template>
 
 <script>
@@ -88,16 +89,17 @@ import { useRoute } from 'vue-router';
 import { useMatchStore } from '../store/matchStore';
 
 import ReportsMatchHistoryFilterDropdown from '../components/ReportsMatchHistoryFilterDropdown.vue';
+import ReportsActionsView from './ReportsActionsView.vue';
 
 import { formatTimestamp } from '../utils/formatTimestamp';
 import { ON_HIT, ON_BLOCK, WHIFF, TECHED, EVENT_NOTICEABLE } from '../utils/hitContexts';
 import { SYSTEM, NEUTRAL, DEFENSE, OFFENSE } from '../utils/categories';
 import { EVENT, REVIEWER } from '../utils/types';
-import ReportsHistoryFilterDropdown from '../components/ReportsMatchHistoryFilterDropdown.vue';
+
 
 
 export default {
-    components: { ReportsMatchHistoryFilterDropdown },
+    components: { ReportsMatchHistoryFilterDropdown, ReportsActionsView },
     setup() {
         const matchStore = useMatchStore();
         const route = useRoute();

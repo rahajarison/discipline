@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ROUND_START, ROUND_WIN } from '../utils/hitContexts';
 import { EVENT } from '../utils/types';
 import { SYSTEM } from '../utils/categories';
+import { P1, P2 } from '../utils/players';
 
 const MAX_STACK_SIZE = 200;
 
@@ -12,7 +13,7 @@ export const useAnalysisStore = defineStore('analysis', {
             rounds: []
         },
         // rounds: [],
-        activePlayer: 'P1',
+        activePlayer: P1,
         redoStack: [],
     }),
     actions: {
@@ -75,7 +76,7 @@ export const useAnalysisStore = defineStore('analysis', {
             });
         },
         togglePlayer() {
-            this.activePlayer = this.activePlayer === 'P1' ? 'P2' : 'P1';
+            this.activePlayer = this.activePlayer === P1 ? P2 : P1;
             console.log("Change player" + this.activePlayer);
         },
         undo() {

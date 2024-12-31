@@ -1,11 +1,11 @@
 <template>
     <h1 class="text-4xl font-bold text-gray-800 dark:text-white">Analysis</h1>
     <div class="flex flex-col">
-        <div class="grow">
+        <div class="grow basis-7/12">
             <Timeline />
         </div>
         <div class="my-8 basis-4/12">
-            <div class="flex flex-row">
+            <div class="flex flex-row gap-x-3">
                 <div class="basis-1/3"><InputPanel /></div>
                 <div class="basis-2/3"><KeyMapDisplay /></div>
             </div>

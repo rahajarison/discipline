@@ -1,5 +1,5 @@
 <template>
-    <div class="p-4 mx-1 bg-gray-50 border border-gray-200 rounded-lg">
+    <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
         <h2 class="text-xl font-bold text-gray-700 dark:text-white">Informations</h2>
         <div class="w-1-3">
             <div class="active-player">

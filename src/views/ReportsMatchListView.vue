@@ -16,6 +16,12 @@
                         Vidéo
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Personnage P1
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Personnage P2
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Consulter
                     </th>
                 </tr>
@@ -34,7 +40,13 @@
                     <td class="px-6 py-4">
                         YYYYYY
                     </td>
-                    <td class="px-6 py-4 text-right">
+                    <td class="px-6 py-4 font-mono font-light">
+                        Akuma
+                    </td>
+                    <td class="px-6 py-4 font-mono font-light">
+                        Cammy
+                    </td>
+                    <td class="px-6 py-4">
                         <RouterLink :to="{ name: 'match-history', params: { matchId: match.id } }" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Choisir</RouterLink>
                     </td>
                 </tr>
