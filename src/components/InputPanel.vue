@@ -26,7 +26,7 @@
 <script>
 import { computed, onMounted, onUnmounted } from 'vue';
 import { useAnalysisStore } from '../store/analysisStore';
-import { keyMap, getHitContext } from '../utils/keyMap';
+import { keyMap, getHitContext } from '../utils/keymap';
 
 export default {
     setup() {

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { prepareKeyMapForDisplay } from '../utils/keyMap';
+import { prepareKeyMapForDisplay } from '../utils/keymap';
 
 export default {
     setup() {
