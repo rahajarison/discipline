@@ -1,0 +1,50 @@
+version: '3.7'
+
+services:
+  backend:
+    build: 
+      context: .
+      dockerfile: Dockerfile-local
+    ports:
+      - "8080:8080"  # Mapper le port du conteneur (8080) à votre port local (8080)
+    volumes:
+      - .:/app  # Monter le répertoire local dans le conteneur pour que les modifications se propagent
+    environment:
+      - DB_HOST=postgres
+      - DB_USER=discipline
+      - DB_PASSWORD=discipline
+      - DB_NAME=discipline
+    depends_on:
+      - postgres
+
+
+  # # Service pour l'application Go
+  # backend_build:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8080:8080"  # Mapper le port 8080 du container au port 8080 local
+  #   environment:
+  #     - DB_HOST=postgres
+  #     - DB_USER=discipline
+  #     - DB_PASSWORD=discipline
+  #     - DB_NAME=discipline
+  #   depends_on:
+  #     - postgres  # Assure que le backend démarre après le service postgres
+
+
+  # Service pour PostgreSQL
+  postgres:
+    image: postgres:latest  # Utiliser l'image officielle de PostgreSQL
+    environment:
+      POSTGRES_USER: discipline
+      POSTGRES_PASSWORD: discipline
+      POSTGRES_DB: discipline
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

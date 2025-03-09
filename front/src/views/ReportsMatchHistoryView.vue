@@ -81,6 +81,7 @@
         </table>
     </div>
     <ReportsActionsView />
+    <ExportBar />
 </template>
 
 <script>
@@ -90,6 +91,7 @@ import { useMatchStore } from '../store/matchStore';
 
 import ReportsMatchHistoryFilterDropdown from '../components/ReportsMatchHistoryFilterDropdown.vue';
 import ReportsActionsView from './ReportsActionsView.vue';
+import ExportBar from '../components/ExportBar.vue';
 
 import { formatTimestamp } from '../utils/formatTimestamp';
 import { ON_HIT, ON_BLOCK, WHIFF, TECHED, EVENT_NOTICEABLE } from '../utils/hitContexts';
@@ -99,7 +101,7 @@ import { EVENT, REVIEWER } from '../utils/types';
 
 
 export default {
-    components: { ReportsMatchHistoryFilterDropdown, ReportsActionsView },
+    components: { ReportsMatchHistoryFilterDropdown, ReportsActionsView, ExportBar },
     setup() {
         const matchStore = useMatchStore();
         const route = useRoute();
