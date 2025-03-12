@@ -17,4 +17,5 @@ COPY . .
 EXPOSE 8080
 
 # Lancer l'application avec go run, directement dans le conteneur
-CMD ["go", "run", "cmd/main.go"]
+CMD ["/bin/bash"]
+# CMD ["go", "run", "cmd/main.go"]
