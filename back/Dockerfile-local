@@ -2,7 +2,7 @@
 FROM golang:1.24
 
 # Définir le répertoire de travail dans le conteneur
-WORKDIR /app
+WORKDIR /back
 
 # Copier le fichier go.mod et go.sum pour gérer les dépendances (permet le cache)
 COPY go.mod go.sum ./

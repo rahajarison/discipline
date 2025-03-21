@@ -2,7 +2,7 @@
 FROM golang:1.24 AS builder
 
 # Définir le répertoire de travail à l’intérieur du container
-WORKDIR /app
+WORKDIR /back
 
 # Copier les fichiers de votre projet dans le container
 COPY . .
@@ -20,7 +20,7 @@ RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 
 # Copier l'exécutable compilé depuis le builder
-COPY --from=builder /app/main .
+COPY --from=builder /back/main .
 
 # Exposer le port que l'application va écouter (ex. 8080)
 EXPOSE 8080
