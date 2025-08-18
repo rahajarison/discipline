@@ -55,6 +55,7 @@ To get an interactive Go shell
 `docker run -it --rm -v $(pwd):/app golang:1.18-alpine /bin/sh`
 
 Start development with Docker Compose
+If your container is already built, you can just connect to the shell and run `go run cmd/main.go`  
 Build the image and start the container: Open your terminal in the directory containing the docker-compose.yml file and run the following commands:
 
 `docker-compose up --build`

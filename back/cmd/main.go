@@ -7,13 +7,13 @@ import (
 	"strconv"
 	
 	"github.com/labstack/echo/v4"
-	"pkg/database"
+	"discipline/pkg/database"
 )
 
 func main() {
 	e := echo.New()
 	port, _ := strconv.Atoi(os.Getenv("DB_PORT"))
-	db, err := database.InitDB(
+	_, err := database.InitDB(
 		os.Getenv("DB_HOST"),
 		os.Getenv("DB_USER"), 
 		os.Getenv("DB_PASSWORD"),

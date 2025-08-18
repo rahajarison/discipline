@@ -3,7 +3,7 @@ package database
 import (
 	"fmt"
 	
-	"back/models"
+	"discipline/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
