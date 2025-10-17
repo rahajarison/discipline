@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"discipline/internal/services"
 	"discipline/models"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
@@ -17,18 +18,35 @@ func NewRoundHandler(db *gorm.DB) *RoundHandler {
 	return &RoundHandler{db: db}
 }
 
-// CreateRound creates a new round
+// CreateRound creates a new round and its initial action
 func (h *RoundHandler) CreateRound(c echo.Context) error {
-	round := new(models.Round)
-	if err := c.Bind(round); err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid request body"})
-	}
+    // matchId from route, round number from body
+    matchID, err := uuid.Parse(c.Param("matchId"))
+    if err != nil {
+        return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid match ID"})
+    }
 
-	if err := h.db.Create(round).Error; err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to create round"})
-	}
+    payload := new(struct{ Number int `json:"number"` })
+    if err := c.Bind(payload); err != nil || payload.Number == 0 {
+        return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid request body"})
+    }
 
-	return c.JSON(http.StatusCreated, round)
+    tx := h.db.Begin()
+    if tx.Error != nil {
+        return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to start transaction"})
+    }
+
+    round, svcErr := services.CreateRoundWithStartAction(tx, matchID, payload.Number)
+    if svcErr != nil {
+        tx.Rollback()
+        return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to create round and initial action"})
+    }
+
+    if err := tx.Commit().Error; err != nil {
+        return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to commit transaction"})
+    }
+
+    return c.JSON(http.StatusCreated, round)
 }
 
 // GetRounds retrieves all rounds for a match

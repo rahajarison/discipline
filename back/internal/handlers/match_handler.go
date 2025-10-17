@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"discipline/internal/services"
 	"discipline/models"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
@@ -18,15 +19,36 @@ func NewMatchHandler(db *gorm.DB) *MatchHandler {
 	return &MatchHandler{db: db}
 }
 
-// CreateMatch creates a new match
+// CreateMatch creates a new match and its first round
 func (h *MatchHandler) CreateMatch(c echo.Context) error {
 	match := new(models.Match)
 	if err := c.Bind(match); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid request body"})
 	}
 
-	if err := h.db.Create(match).Error; err != nil {
+    // Use a transaction to create the match and the first round together
+    tx := h.db.Begin()
+	if tx.Error != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to start transaction"})
+	}
+
+    if err := tx.Create(match).Error; err != nil {
+		tx.Rollback()
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to create match"})
+	}
+
+    if _, err := services.CreateRoundWithStartAction(tx, match.ID, 1); err != nil {
+        tx.Rollback()
+        return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to create first round and initial action"})
+    }
+
+	if err := tx.Commit().Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to commit transaction"})
+	}
+
+	// Load the match with its relations for the response
+	if err := h.db.Preload("Player1").Preload("Player2").Preload("Rounds").First(match, "id = ?", match.ID).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to load match with relations"})
 	}
 
 	return c.JSON(http.StatusCreated, match)
