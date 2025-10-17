@@ -1,0 +1,15 @@
+meta {
+  name: Get Round Actions
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{hostname}}{{api_prefix}}/{{api_version}}/matches/{{match_id}}/rounds/{{round_id}}/actions
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

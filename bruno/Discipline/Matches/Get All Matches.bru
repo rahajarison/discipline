@@ -1,0 +1,20 @@
+meta {
+  name: Get All Matches
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{hostname}}{{api_prefix}}/{{api_version}}/matches
+  body: none
+  auth: inherit
+}
+
+query {
+  page: 1
+  limit: 10
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,29 @@
+meta {
+  name: Create Match
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{hostname}}{{api_prefix}}/{{api_version}}/matches
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "player1Id": "{{player1_id}}",
+    "player2Id": "{{player2_id}}",
+    "date": "2024-01-15T14:30:00Z",
+    "replayUrl": "https://example.com/replay/123",
+    "notes": "First match of the tournament"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

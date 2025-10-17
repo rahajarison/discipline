@@ -1,0 +1,224 @@
+docs {
+  # Bruno API Testing Collection - Discipline API
+
+  This Bruno collection contains all requests to test the Discipline API with a complete CRUD testing suite.
+
+  ## Collection Structure
+
+  ```
+  Discipline/
+  ├── Users/                    # User CRUD operations
+  │   ├── Create User.bru
+  │   ├── Get All Users.bru
+  │   ├── Get User by ID.bru
+  │   ├── Update User.bru
+  │   ├── Delete User.bru
+  │   └── Get User Matches.bru
+  ├── Matches/                  # Match CRUD operations
+  │   ├── Create Match.bru
+  │   ├── Get All Matches.bru
+  │   ├── Get Match by ID.bru
+  │   ├── Update Match.bru
+  │   └── Delete Match.bru
+  ├── Rounds/                   # Round CRUD operations
+  │   ├── Create Round.bru
+  │   ├── Get Match Rounds.bru
+  │   ├── Get Round by ID.bru
+  │   ├── Update Round.bru
+  │   └── Delete Round.bru
+  ├── Actions/                  # Action CRUD operations
+  │   ├── Create Action.bru
+  │   ├── Get Round Actions.bru
+  │   ├── Get Action by ID.bru
+  │   ├── Update Action.bru
+  │   ├── Delete Action.bru
+  │   └── Get Actions by Player.bru
+  └── environments/
+      └── Local v1.bru          # Environment variables
+  ```
+
+  ## Environment Variables
+
+  The "Local v1" environment contains the following variables:
+
+  - `hostname`: "http://localhost:8080" - Base URL for the API
+  - `api_prefix`: "/api" - API prefix path
+  - `api_version`: "v1" - API version
+  - `user_id`: Example UUID for a user
+  - `player1_id`: Example UUID for player 1
+  - `player2_id`: Example UUID for player 2
+  - `match_id`: Example UUID for a match
+  - `round_id`: Example UUID for a round
+  - `action_id`: Example UUID for an action
+  - `player`: Player identifier (P1 or P2)
+
+  ## Recommended Testing Order
+
+  ### 1. User Tests
+  1. **Create User** - Create a new user
+  2. **Get All Users** - Verify the user was created
+  3. **Get User by ID** - Retrieve the created user
+  4. **Update User** - Modify the user
+  5. **Get User Matches** - View user's matches (empty initially)
+
+  ### 2. Match Tests
+  1. **Create Match** - Create a match with user IDs
+  2. **Get All Matches** - Verify the match was created
+  3. **Get Match by ID** - Retrieve the created match
+  4. **Update Match** - Modify the match
+
+  ### 3. Round Tests
+  1. **Create Round** - Create a round for the match
+  2. **Get Match Rounds** - Verify the round was created
+  3. **Get Round by ID** - Retrieve the created round
+  4. **Update Round** - Modify the round
+
+  ### 4. Action Tests
+  1. **Create Action** - Create an action for the round
+  2. **Get Round Actions** - Verify the action was created
+  3. **Get Action by ID** - Retrieve the created action
+  4. **Get Actions by Player** - View actions for a specific player
+  5. **Update Action** - Modify the action
+
+  ### 5. Cleanup Tests (Optional)
+  - **Delete Action**
+  - **Delete Round**
+  - **Delete Match**
+  - **Delete User**
+
+  ## Usage Tips
+
+  ### 1. Updating IDs
+  After each creation, copy the returned ID from the response and update the environment variables:
+  - Create a user → Copy the ID → Update `user_id`
+  - Create a match → Copy the ID → Update `match_id`
+  - etc.
+
+  ### 2. Pagination Testing
+  To test pagination, modify the `page` and `limit` parameters in "Get All" requests.
+
+  ### 3. Error Testing
+  Test with invalid IDs to verify error handling:
+  - Use invalid UUIDs
+  - Test with missing data
+  - Test with incorrect data formats
+
+  ### 4. Relationship Testing
+  Verify that relationships work correctly:
+  - `Get User Matches` after creating a match
+  - `Get Match Rounds` after creating a round
+  - `Get Round Actions` after creating an action
+
+  ## API Endpoints
+
+  ### Base URL
+  ```
+  {{hostname}}{{api_prefix}}/{{api_version}}
+  ```
+
+  ### Health Check
+  - **GET** `/health` - Check API status
+
+  ### Users
+  - **POST** `/users` - Create a new user
+  - **GET** `/users` - Get all users (with pagination)
+  - **GET** `/users/:id` - Get a user by ID
+  - **PUT** `/users/:id` - Update a user
+  - **DELETE** `/users/:id` - Delete a user
+  - **GET** `/users/:userId/matches` - Get all matches for a user
+
+  ### Matches
+  - **POST** `/matches` - Create a new match
+  - **GET** `/matches` - Get all matches (with pagination)
+  - **GET** `/matches/:id` - Get a match by ID
+  - **PUT** `/matches/:id` - Update a match
+  - **DELETE** `/matches/:id` - Delete a match
+
+  ### Rounds
+  - **POST** `/matches/:matchId/rounds` - Create a new round
+  - **GET** `/matches/:matchId/rounds` - Get all rounds for a match
+  - **GET** `/matches/:matchId/rounds/:id` - Get a round by ID
+  - **PUT** `/matches/:matchId/rounds/:id` - Update a round
+  - **DELETE** `/matches/:matchId/rounds/:id` - Delete a round
+
+  ### Actions
+  - **POST** `/matches/:matchId/rounds/:roundId/actions` - Create a new action
+  - **GET** `/matches/:matchId/rounds/:roundId/actions` - Get all actions for a round
+  - **GET** `/matches/:matchId/rounds/:roundId/actions/:id` - Get an action by ID
+  - **PUT** `/matches/:matchId/rounds/:roundId/actions/:id` - Update an action
+  - **DELETE** `/matches/:matchId/rounds/:roundId/actions/:id` - Delete an action
+  - **GET** `/matches/:matchId/rounds/:roundId/actions/player/:player` - Get actions for a player
+
+  ## Data Examples
+
+  ### Create User
+  ```json
+  {
+    "username": "testuser",
+    "email": "test@example.com",
+    "role": "player",
+    "passwordHash": "hashedpassword123"
+  }
+  ```
+
+  ### Create Match
+  ```json
+  {
+    "player1Id": "{{player1_id}}",
+    "player2Id": "{{player2_id}}",
+    "date": "2024-01-15T14:30:00Z",
+    "replayUrl": "https://example.com/replay/123",
+    "notes": "First match of the tournament"
+  }
+  ```
+
+  ### Create Round
+  ```json
+  {
+    "number": 1
+  }
+  ```
+
+  ### Create Action
+  ```json
+  {
+    "type": "hit",
+    "category": "attack",
+    "hitContext": "high",
+    "player": "P1",
+    "timestamp": "2024-01-15T14:30:05Z"
+  }
+  ```
+
+  ## Response Codes
+
+  - **200** - Success
+  - **201** - Created successfully
+  - **400** - Invalid request
+  - **404** - Resource not found
+  - **500** - Internal server error
+
+  ## Error Response Structure
+
+  ```json
+  {
+    "error": "Descriptive error message"
+  }
+  ```
+
+  ## Features
+
+  - **Pagination**: List endpoints support `page` and `limit` parameters
+  - **Automatic Relations**: Some endpoints include related data automatically
+  - **Nested Resources**: Hierarchical structure (matches → rounds → actions)
+  - **Flexible URLs**: Environment variables for easy configuration
+  - **Complete CRUD**: Full Create, Read, Update, Delete operations for all entities
+
+  ## Getting Started
+
+  1. Start your Go server: `go run cmd/main.go`
+  2. Open Bruno and load this collection
+  3. Select the "Local v1" environment
+  4. Follow the recommended testing order
+  5. Update environment variables with real IDs as you create resources
+}

@@ -1,0 +1,25 @@
+meta {
+  name: Create Round
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{hostname}}{{api_prefix}}/{{api_version}}/matches/{{match_id}}/rounds
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "number": 1
+  }
+}
+
+settings {
+  encodeUrl: true
+}

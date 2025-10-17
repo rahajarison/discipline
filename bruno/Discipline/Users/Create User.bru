@@ -1,0 +1,28 @@
+meta {
+  name: Create User
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{hostname}}{{api_prefix}}/{{api_version}}/users
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "username": "Chunk",
+    "email": "test@example.com",
+    "role": "player",
+    "passwordHash": "hashedpassword123"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

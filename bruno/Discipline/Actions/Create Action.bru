@@ -1,0 +1,29 @@
+meta {
+  name: Create Action
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{hostname}}{{api_prefix}}/{{api_version}}/matches/{{match_id}}/rounds/{{round_id}}/actions
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "type": "hit",
+    "category": "attack",
+    "hitContext": "high",
+    "player": "P1",
+    "timestamp": "2024-01-15T14:30:05Z"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

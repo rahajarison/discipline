@@ -1,0 +1,29 @@
+meta {
+  name: Update Action
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{hostname}}{{api_prefix}}/{{api_version}}/matches/{{match_id}}/rounds/{{round_id}}/actions/{{action_id}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "type": "block",
+    "category": "defense",
+    "hitContext": "mid",
+    "player": "P2",
+    "timestamp": "2024-01-15T14:30:06Z"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

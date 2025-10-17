@@ -41,21 +41,15 @@ For production build: `npm run build`
 
 ## Backend
 ### Structure
-- `/cmd` : Application entry points
-- `/internal` : Business logic
-- `/pkg` : Reusable libraries
-- `/api` : API configuration and handlers
-- `/config` : Configuration files
-- `/migrations` : DB migration scripts
-- `/test` : Unit tests
+Refer to `back/ARCHITECTURE.md` and `back/API_ENDPOINTS.md`
 
 ### Commands
 To get an interactive Go shell
-`docker-compose exec backend /bin/bash`
+`docker-compose exec backend /bin/bash`  
 `docker run -it --rm -v $(pwd):/app golang:1.18-alpine /bin/sh`
 
 Start development with Docker Compose
-If your container is already built, you can just connect to the shell and run `go run cmd/main.go`  
+If your container is already built, you can just connect to the shell and run `go run cmd/main.go`. You can then use [Bruno](https://www.usebruno.com/compare/bruno-vs-postman), Insomnia or Postman to test calls of endpoints.  
 Build the image and start the container: Open your terminal in the directory containing the docker-compose.yml file and run the following commands:
 
 `docker-compose up --build`
@@ -71,17 +65,17 @@ docker-compose exec backend go run main.go
 Stop and restart the container:
 You can stop and restart services without losing your local changes with:
 
-`docker-compose down`
+`docker-compose down`  
 `docker-compose up`
 
 #### Dependencies
-`go get -u gorm.io/gorm`
+`go get -u gorm.io/gorm`  
 `go get -u gorm.io/driver/postgres`
 
 ### Differences between dockerfiles
 
 ##### Go mod / Go sum
-`COPY go.mod go.sum ./`: This command copies only the go.mod and go.sum files into the container. This allows Docker to cache these files during image building. In other words, only Go dependencies are downloaded into the image, and this process is cached.
+`COPY go.mod go.sum ./`: This command copies only the go.mod and go.sum files into the container. This allows Docker to cache these files during image building. In other words, only Go dependencies are downloaded into the image, and this process is cached.  
 `RUN go mod download`: This command downloads all Go dependencies defined in go.mod and go.sum without touching the project source code. This means dependencies are only downloaded when go.mod or go.sum files change.
 
 Benefits:

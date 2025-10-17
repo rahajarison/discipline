@@ -1,0 +1,29 @@
+meta {
+  name: Update Match
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{hostname}}{{api_prefix}}/{{api_version}}/matches/{{match_id}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "player1Id": "{{player1_id}}",
+    "player2Id": "{{player2_id}}",
+    "date": "2024-01-15T16:00:00Z",
+    "replayUrl": "https://example.com/replay/123-updated",
+    "notes": "Updated match notes"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

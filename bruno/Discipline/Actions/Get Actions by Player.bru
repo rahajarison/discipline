@@ -1,0 +1,15 @@
+meta {
+  name: Get Actions by Player
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{hostname}}{{api_prefix}}/{{api_version}}/matches/{{match_id}}/rounds/{{round_id}}/actions/player/{{player}}
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

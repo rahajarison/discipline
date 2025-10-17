@@ -1,0 +1,15 @@
+meta {
+  name: Delete Match
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{hostname}}{{api_prefix}}/{{api_version}}/matches/{{match_id}}
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
