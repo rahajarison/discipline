@@ -46,8 +46,8 @@ func (h *MatchHandler) CreateMatch(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to commit transaction"})
 	}
 
-	// Load the match with its relations for the response
-	if err := h.db.Preload("Player1").Preload("Player2").Preload("Rounds").First(match, "id = ?", match.ID).Error; err != nil {
+	// Load the match with its relations for the response (including initial actions)
+	if err := h.db.Preload("Player1").Preload("Player2").Preload("Rounds").Preload("Rounds.Actions").First(match, "id = ?", match.ID).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to load match with relations"})
 	}
 

@@ -11,6 +11,12 @@ func SetupRoutes(e *echo.Echo, userHandler *handlers.UserHandler, matchHandler *
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
+	// e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+	// 	// AllowOrigins: []string{"http://localhost:8080", "http://127.0.0.1:8080"},
+	// 	AllowOrigins: []string{"*"},
+	// 	AllowMethods: []string{echo.GET, echo.POST, echo.PUT, echo.DELETE, echo.OPTIONS},
+	// 	AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
+	// }))
 
 	// API v1 group
 	v1 := e.Group("/api/v1")

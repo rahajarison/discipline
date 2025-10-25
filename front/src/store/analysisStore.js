@@ -18,7 +18,7 @@ export const useAnalysisStore = defineStore('analysis', {
     }),
     actions: {
         initializeStore() {
-            this.startNewAnalysis();
+            // this.startNewAnalysis();
         },
         addAction(action) {
             const currentRound = this.match.rounds[this.match.rounds.length - 1];
@@ -55,12 +55,39 @@ export const useAnalysisStore = defineStore('analysis', {
                 console.log("Maximum number of rounds has been reached")
             }
         },
-        startNewAnalysis() {
-            this.match = {
-                rounds: [],
-                timestamp: new Date()
+        async startNewAnalysis() {
+            this.resetRedoStack();
+
+            const API_BASE = import.meta?.env?.VITE_API_BASE || 'http://localhost/api/v1';
+
+            const matchBody = {
+                player1Id: 'ada334b9-f581-4c0d-be1f-460c1e023bb3',
+                player2Id: 'ada334b9-f581-4c0d-be1f-460c1e023bb3',
+                date: new Date().toISOString(),
+                replayUrl: 'https://example.com/replay/123',
+                notes: 'First match of the tournament'
             };
-            this.startNewRound();
+
+            let createdMatch = null;
+            try {
+                const createMatchResp = await fetch(`${API_BASE}/matches`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(matchBody)
+                });
+                if (!createMatchResp.ok) throw new Error('Failed to create match');
+                createdMatch = await createMatchResp.json();
+            } catch (e) {
+                console.error(e);
+                // Fallback to local state to avoid breaking the UI
+                // this.match = { rounds: [], timestamp: new Date() };
+                // this.startNewRound();
+                // return;
+            }
+
+            // Assign response to reactive state
+            this.match = createdMatch;
+            // this.match = createdMatch || { rounds: [] };
         },
         startNewRound() {
             this.resetRedoStack();

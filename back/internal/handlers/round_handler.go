@@ -46,6 +46,11 @@ func (h *RoundHandler) CreateRound(c echo.Context) error {
         return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to commit transaction"})
     }
 
+    // Reload round with its actions for response
+    if err := h.db.Preload("Match").Preload("Actions").First(round, "id = ?", round.ID).Error; err != nil {
+        return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to load round with actions"})
+    }
+
     return c.JSON(http.StatusCreated, round)
 }
 
