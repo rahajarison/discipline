@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"time"
 
 	"discipline/models"
 	"github.com/google/uuid"
@@ -19,10 +20,21 @@ func NewActionHandler(db *gorm.DB) *ActionHandler {
 
 // CreateAction creates a new action
 func (h *ActionHandler) CreateAction(c echo.Context) error {
+	// Get round_id from URL parameter
+	roundID, err := uuid.Parse(c.Param("roundId"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid round ID"})
+	}
+
+	// Bind directly to Action struct (it has the correct JSON tags)
 	action := new(models.Action)
 	if err := c.Bind(action); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid request body"})
 	}
+
+	// Set the round_id from URL parameter
+	action.RoundID = roundID
+	action.Timestamp = time.Now().UTC()
 
 	if err := h.db.Create(action).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to create action"})

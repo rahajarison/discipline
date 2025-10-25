@@ -7,12 +7,12 @@ import (
 
 type Action struct {
 	Base
-	Type       string    `gorm:"not null"`
-	Category   string    `gorm:"not null"`
-	HitContext string    `gorm:"not null"`
-	Player     string    `gorm:"not null"` // P1 or P2
-	Timestamp  time.Time `gorm:"not null"`
-	RoundID    uuid.UUID `gorm:"type:uuid;not null"`
+	Type       string    `gorm:"not null" json:"type"`
+	Category   string    `gorm:"not null" json:"category"`
+	HitContext string    `gorm:"not null" json:"hit_context"`
+	Player     string    `gorm:"not null" json:"player"` // P1 or P2
+	Timestamp  time.Time `gorm:"not null" json:"timestamp"`
+	RoundID    uuid.UUID `gorm:"type:uuid;not null" json:"round_id"`
 	
-	Round      Round     `gorm:"foreignKey:RoundID"`
+	Round      Round     `gorm:"foreignKey:RoundID" json:"round"`
 } 

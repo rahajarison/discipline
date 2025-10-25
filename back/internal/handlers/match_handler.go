@@ -86,7 +86,7 @@ func (h *MatchHandler) GetMatch(c echo.Context) error {
 	}
 
 	var match models.Match
-	if err := h.db.Preload("Player1").Preload("Player2").First(&match, "id = ?", id).Error; err != nil {
+	if err := h.db.Preload("Player1").Preload("Player2").Preload("Rounds").Preload("Rounds.Actions").First(&match, "id = ?", id).Error; err != nil {
 		return c.JSON(http.StatusNotFound, map[string]string{"error": "Match not found"})
 	}
 

@@ -54,7 +54,7 @@ func (h *RoundHandler) CreateRound(c echo.Context) error {
     return c.JSON(http.StatusCreated, round)
 }
 
-// GetRounds retrieves all rounds for a match
+// GetRounds retrieves all rounds for a match with their actions
 func (h *RoundHandler) GetRounds(c echo.Context) error {
 	matchID, err := uuid.Parse(c.Param("matchId"))
 	if err != nil {
@@ -62,14 +62,14 @@ func (h *RoundHandler) GetRounds(c echo.Context) error {
 	}
 
 	var rounds []models.Round
-	if err := h.db.Where("match_id = ?", matchID).Order("number").Find(&rounds).Error; err != nil {
+	if err := h.db.Where("match_id = ?", matchID).Preload("Actions").Order("number").Find(&rounds).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to fetch rounds"})
 	}
 
 	return c.JSON(http.StatusOK, rounds)
 }
 
-// GetRound retrieves a round by ID
+// GetRound retrieves a round by ID with its actions
 func (h *RoundHandler) GetRound(c echo.Context) error {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -77,7 +77,7 @@ func (h *RoundHandler) GetRound(c echo.Context) error {
 	}
 
 	var round models.Round
-	if err := h.db.Preload("Match").First(&round, "id = ?", id).Error; err != nil {
+	if err := h.db.Preload("Match").Preload("Actions").First(&round, "id = ?", id).Error; err != nil {
 		return c.JSON(http.StatusNotFound, map[string]string{"error": "Round not found"})
 	}
 
